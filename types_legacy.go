@@ -21,6 +21,10 @@ type LegacyModelInfo struct {
 // to fork builds that exposed a typed authentication method identifier.
 type AuthMethodId = string
 
+// MessageId is kept as an exported compatibility alias for consumers pinned to
+// fork builds that exposed a typed session message identifier.
+type MessageId = string
+
 // TerminalId is kept as an exported compatibility alias for consumers pinned to
 // fork builds that exposed a typed terminal identifier.
 type TerminalId = string

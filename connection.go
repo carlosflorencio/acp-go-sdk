@@ -23,8 +23,6 @@ const (
 // notification queue reaches its configured per-connection capacity.
 var ErrNotificationQueueOverflow = errors.New("notification queue overflow")
 
-var errNotificationQueueOverflow = ErrNotificationQueueOverflow
-
 type connectionOptions struct {
 	maxQueuedNotifications int
 }
@@ -486,8 +484,8 @@ func (c *Connection) receive() {
 					panic("completed notification sequence exceeded enqueued notification sequence")
 				}
 				c.notifyMu.Unlock()
-				c.loggerOrDefault().Error("failed to queue notification; closing connection", "err", errNotificationQueueOverflow, "capacity", cap(c.notificationQueue), "queued", len(c.notificationQueue))
-				c.shutdownReceive(errNotificationQueueOverflow)
+				c.loggerOrDefault().Error("failed to queue notification; closing connection", "err", ErrNotificationQueueOverflow, "capacity", cap(c.notificationQueue), "queued", len(c.notificationQueue))
+				c.shutdownReceive(ErrNotificationQueueOverflow)
 				return
 			}
 		default:

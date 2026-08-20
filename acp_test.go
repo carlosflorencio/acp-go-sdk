@@ -872,7 +872,7 @@ func TestConnectionFailsFastOnNotificationQueueOverflow(t *testing.T) {
 	}
 
 	cause := context.Cause(c.ctx)
-	if !errors.Is(cause, errNotificationQueueOverflow) {
+	if !errors.Is(cause, ErrNotificationQueueOverflow) {
 		t.Fatalf("expected overflow cancellation cause, got %v", cause)
 	}
 
@@ -917,7 +917,7 @@ func TestConnectionFailsFastOnNotificationQueueOverflow_WithConfiguredCapacity(t
 		t.Fatalf("timeout waiting for connection cancellation on queue overflow")
 	}
 
-	if cause := context.Cause(c.ctx); !errors.Is(cause, errNotificationQueueOverflow) {
+	if cause := context.Cause(c.ctx); !errors.Is(cause, ErrNotificationQueueOverflow) {
 		t.Fatalf("expected overflow cancellation cause, got %v", cause)
 	}
 	if got := cap(c.notificationQueue); got != 1 {

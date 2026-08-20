@@ -234,6 +234,7 @@ func (u *AgentResponse) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u AgentResponse) MarshalJSON() ([]byte, error) {
 	if u.Result != nil {
 		_b, _e := json.Marshal(*u.Result)
@@ -590,6 +591,7 @@ func (u *AuthMethod) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u AuthMethod) MarshalJSON() ([]byte, error) {
 	if u.EnvVar != nil {
 		_b, _e := json.Marshal(*u.EnvVar)
@@ -791,6 +793,7 @@ func (u *AvailableCommandInput) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u AvailableCommandInput) MarshalJSON() ([]byte, error) {
 	if u.Unstructured != nil {
 		_b, _e := json.Marshal(*u.Unstructured)
@@ -1073,6 +1076,7 @@ func (u *ClientResponse) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u ClientResponse) MarshalJSON() ([]byte, error) {
 	if u.Result != nil {
 		_b, _e := json.Marshal(*u.Result)
@@ -1470,6 +1474,7 @@ func (u *ContentBlock) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u ContentBlock) MarshalJSON() ([]byte, error) {
 	if u.Text != nil {
 		_b, _e := json.Marshal(*u.Text)
@@ -1853,6 +1858,7 @@ func (u *EmbeddedResourceResource) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u EmbeddedResourceResource) MarshalJSON() ([]byte, error) {
 	if u.TextResourceContents != nil {
 		_b, _e := json.Marshal(*u.TextResourceContents)
@@ -2031,6 +2037,7 @@ func (u *ErrorCode) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u ErrorCode) MarshalJSON() ([]byte, error) {
 	if u.ParseError != nil {
 		_b, _e := json.Marshal(*u.ParseError)
@@ -2513,6 +2520,8 @@ type LoadSessionResponse struct {
 	//
 	// See protocol docs: [Session Modes](https://agentclientprotocol.com/protocol/session-modes)
 	Modes *SessionModeState `json:"modes,omitempty"`
+	// LegacyModels accepts the pre-v0.13.5 models payload still emitted by legacy agents.
+	LegacyModels *LegacyModels `json:"models,omitempty"`
 }
 
 func (v *LoadSessionResponse) Validate() error {
@@ -2878,6 +2887,7 @@ func (u *McpServer) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u McpServer) MarshalJSON() ([]byte, error) {
 	if u.Http != nil {
 		_b, _e := json.Marshal(*u.Http)
@@ -3282,6 +3292,8 @@ type NewSessionResponse struct {
 	//
 	// Used in all subsequent requests for this conversation.
 	SessionId SessionId `json:"sessionId"`
+	// LegacyModels accepts the pre-v0.13.5 models payload still emitted by legacy agents.
+	LegacyModels *LegacyModels `json:"models,omitempty"`
 }
 
 func (v *NewSessionResponse) Validate() error {
@@ -3681,6 +3693,7 @@ func (u *PlanUpdateContent) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u PlanUpdateContent) MarshalJSON() ([]byte, error) {
 	if u.Items != nil {
 		_b, _e := json.Marshal(*u.Items)
@@ -4067,6 +4080,7 @@ func (u *RequestId) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u RequestId) MarshalJSON() ([]byte, error) {
 	if u.Null != nil {
 		return json.Marshal(nil)
@@ -4216,6 +4230,7 @@ func (u *RequestPermissionOutcome) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u RequestPermissionOutcome) MarshalJSON() ([]byte, error) {
 	if u.Cancelled != nil {
 		_b, _e := json.Marshal(*u.Cancelled)
@@ -4627,6 +4642,7 @@ func (u *SessionConfigOption) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u SessionConfigOption) MarshalJSON() ([]byte, error) {
 	if u.Select != nil {
 		_b, _e := json.Marshal(*u.Select)
@@ -4808,6 +4824,7 @@ func (u *SessionConfigSelectOptions) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u SessionConfigSelectOptions) MarshalJSON() ([]byte, error) {
 	if u.Ungrouped != nil {
 		_b, _e := json.Marshal(*u.Ungrouped)
@@ -5727,6 +5744,7 @@ func (u *SessionUpdate) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u SessionUpdate) MarshalJSON() ([]byte, error) {
 	if u.UserMessageChunk != nil {
 		_b, _e := json.Marshal(*u.UserMessageChunk)
@@ -6056,6 +6074,7 @@ func (u *SetSessionConfigOptionRequest) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u SetSessionConfigOptionRequest) MarshalJSON() ([]byte, error) {
 	if u.Boolean != nil {
 		_b, _e := json.Marshal(*u.Boolean)
@@ -6472,6 +6491,7 @@ func (u *ToolCallContent) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u ToolCallContent) MarshalJSON() ([]byte, error) {
 	if u.Content != nil {
 		_b, _e := json.Marshal(*u.Content)
@@ -6894,6 +6914,7 @@ func (u *UnstableCreateElicitationRequest) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u UnstableCreateElicitationRequest) MarshalJSON() ([]byte, error) {
 	if u.Form != nil {
 		_b, _e := json.Marshal(*u.Form)
@@ -7090,6 +7111,7 @@ func (u *UnstableCreateElicitationResponse) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u UnstableCreateElicitationResponse) MarshalJSON() ([]byte, error) {
 	if u.Accept != nil {
 		_b, _e := json.Marshal(*u.Accept)
@@ -7474,6 +7496,7 @@ func (u *UnstableElicitationFormMode) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u UnstableElicitationFormMode) MarshalJSON() ([]byte, error) {
 	if u.Session != nil {
 		_b, _e := json.Marshal(*u.Session)
@@ -7666,6 +7689,7 @@ func (u *UnstableElicitationUrlMode) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u UnstableElicitationUrlMode) MarshalJSON() ([]byte, error) {
 	if u.Session != nil {
 		_b, _e := json.Marshal(*u.Session)
@@ -7750,6 +7774,8 @@ type UnstableForkSessionResponse struct {
 	Modes *SessionModeState `json:"modes,omitempty"`
 	// Unique identifier for the newly created forked session.
 	SessionId SessionId `json:"sessionId"`
+	// LegacyModels accepts the pre-v0.13.5 models payload still emitted by legacy agents.
+	LegacyModels *LegacyModels `json:"models,omitempty"`
 }
 
 func (v *UnstableForkSessionResponse) Validate() error {
@@ -8076,6 +8102,7 @@ func (u *UnstableMcpServer) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u UnstableMcpServer) MarshalJSON() ([]byte, error) {
 	if u.Http != nil {
 		_b, _e := json.Marshal(*u.Http)
@@ -8632,6 +8659,7 @@ func (u *UnstableNesSuggestion) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u UnstableNesSuggestion) MarshalJSON() ([]byte, error) {
 	if u.Edit != nil {
 		_b, _e := json.Marshal(*u.Edit)
@@ -8966,6 +8994,7 @@ func (u *UnstableSessionConfigOption) UnmarshalJSON(b []byte) error {
 	}
 	return errors.New("no matching variant for union")
 }
+
 func (u UnstableSessionConfigOption) MarshalJSON() ([]byte, error) {
 	if u.Select != nil {
 		_b, _e := json.Marshal(*u.Select)

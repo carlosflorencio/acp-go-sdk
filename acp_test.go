@@ -881,6 +881,53 @@ func TestConnectionFailsFastOnNotificationQueueOverflow(t *testing.T) {
 	waitForNotificationBarrierDrain(t, c, 1*time.Second)
 }
 
+func TestConnectionFailsFastOnNotificationQueueOverflow_WithConfiguredCapacity(t *testing.T) {
+	incomingR, incomingW := io.Pipe()
+
+	firstStarted := make(chan struct{})
+	releaseFirst := make(chan struct{})
+	var handled atomic.Int64
+
+	c := NewConnection(func(context.Context, string, json.RawMessage) (any, *RequestError) {
+		if handled.Add(1) == 1 {
+			close(firstStarted)
+			<-releaseFirst
+		}
+		return nil, nil
+	}, io.Discard, incomingR, WithMaxQueuedNotifications(1))
+
+	if _, err := io.WriteString(incomingW, `{"jsonrpc":"2.0","method":"test/notify","params":{}}`+"\n"); err != nil {
+		t.Fatalf("write first notification: %v", err)
+	}
+	select {
+	case <-firstStarted:
+	case <-time.After(1 * time.Second):
+		t.Fatalf("timeout waiting for first notification handler to start")
+	}
+
+	for i := 0; i < 2; i++ {
+		if _, err := io.WriteString(incomingW, `{"jsonrpc":"2.0","method":"test/notify","params":{}}`+"\n"); err != nil {
+			t.Fatalf("write overflow notification %d: %v", i, err)
+		}
+	}
+
+	select {
+	case <-c.Done():
+	case <-time.After(1 * time.Second):
+		t.Fatalf("timeout waiting for connection cancellation on queue overflow")
+	}
+
+	if cause := context.Cause(c.ctx); !errors.Is(cause, errNotificationQueueOverflow) {
+		t.Fatalf("expected overflow cancellation cause, got %v", cause)
+	}
+	if got := cap(c.notificationQueue); got != 1 {
+		t.Fatalf("notification queue capacity = %d, want 1", got)
+	}
+
+	close(releaseFirst)
+	waitForNotificationBarrierDrain(t, c, 1*time.Second)
+}
+
 // Test initialize method behavior
 func TestConnectionHandlesInitialize(t *testing.T) {
 	c2aR, c2aW := io.Pipe()

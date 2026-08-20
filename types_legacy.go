@@ -2,9 +2,36 @@ package acp
 
 import "context"
 
+// LegacyModels is the pre-v0.13.5 top-level "models" payload that some agents
+// still emit on session/new, session/load, and session/fork responses.
+type LegacyModels struct {
+	AvailableModels []LegacyModelInfo `json:"availableModels"`
+	CurrentModelId  string            `json:"currentModelId"`
+}
+
+// LegacyModelInfo describes one model entry in the legacy models payload.
+type LegacyModelInfo struct {
+	ModelId     string         `json:"modelId"`
+	Name        string         `json:"name"`
+	Description *string        `json:"description,omitempty"`
+	Meta        map[string]any `json:"_meta,omitempty"`
+}
+
+// AuthMethodId is kept as an exported compatibility alias for consumers pinned
+// to fork builds that exposed a typed authentication method identifier.
+type AuthMethodId = string
+
 // TerminalId is kept as an exported compatibility alias for consumers pinned to
 // fork builds that exposed a typed terminal identifier.
 type TerminalId = string
+
+// DeleteSessionRequest is kept as a compatibility alias to the current
+// unstable delete-session request type.
+type DeleteSessionRequest = UnstableDeleteSessionRequest
+
+// DeleteSessionResponse is kept as a compatibility alias to the current
+// unstable delete-session response type.
+type DeleteSessionResponse = UnstableDeleteSessionResponse
 
 // LegacyAgentMethodSessionSetModel is the JSON-RPC method name for the
 // pre-v0.13.5 unstable session model API (session/set_model).
